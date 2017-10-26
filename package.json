@@ -1,6 +1,6 @@
 {
   "name": "imageurf",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Encode/Decode urf files",
   "main": "urf.js",
   "scripts": {
