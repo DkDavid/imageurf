@@ -6,6 +6,13 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository" :
+  { "type" : "git"
+  , "url" : "https://github.com/DkDavid/imageurf"
+  },
   "author": "David Dillkötter",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "pngjs": "^3.3.0"
+  }
 }
