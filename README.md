@@ -15,7 +15,7 @@ Example
 PNG = require('pngjs').PNG;
 var fs = require('fs')
 
-var Urf = require('urf.js')
+var Urf = require('imageurf')
 var urf = new Urf()
 
 var picture = [255, 255, 255, 0, 0, 0, 255, 255, 255 ] //RGB or greyscale pixel-array
