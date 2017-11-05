@@ -8,6 +8,7 @@ class Urf {
     		left 	: 	0,
     		right 	: 	0
 		}
+		this.turn = false		
 		
     	this.width		= 0
     	this.height		= 0
@@ -48,14 +49,20 @@ class Urf {
         blob.push(new Buffer("04", "hex"));               //QUALITY
         blob.push(new Buffer("0000000100000000", "hex")); //UNKNOWN
         
-        
+        var newHeight = height
+        var newWidth = width
+
+        if(config.turn){
+            newHeight = width
+            newWidth = height
+        }
             
         var widthBlob = new Buffer(4);
-        widthBlob.writeUIntBE((width+this.margin.left+this.margin.right), 0, 4); 
+        widthBlob.writeUIntBE((newWidth+this.margin.left+this.margin.right), 0, 4); 
         blob.push(widthBlob);                            
   
         var heightBlob = new Buffer(4);
-        heightBlob.writeUIntBE((height+this.margin.top+this.margin.bottom), 0, 4);
+        heightBlob.writeUIntBE((newHeight+this.margin.top+this.margin.bottom), 0, 4);
         blob.push(heightBlob); 
 
         var dpi = new Buffer(4)                                
@@ -70,19 +77,22 @@ class Urf {
 
         writeEmptyLines(this.margin.top)
         
-        for (var y = 0; y < height; y++) {
+        for (var y = 0; y < newHeight; y++) {
 
 
             blob.push(new Buffer("00", "hex"));             //line repeat code
             
             writeEmptyPixel(this.margin.left)
 
-            for (var x = 0; x < width; x++) {
+            for (var x = 0; x < newWidth; x++) {
 
-                var index = Math.floor((width * y + x) * bytesPerPixel);
-
-
-                blob.push(new Buffer("00", "hex"));         //PackBits code
+				blob.push(new Buffer("00", "hex"));         //PackBits code
+				
+				if(config.turn){
+                    var index = Math.floor((newHeight*(newWidth-1-x)+y) * bytesPerPixel);
+                } else{
+                    var index = Math.floor((newWidth * y + x) * bytesPerPixel);
+                }
 
                 //Grauwert = 0,299 × Rotanteil + 0,587 × Grünanteil + 0,114 × Blauanteil
                 if(greyscale){
